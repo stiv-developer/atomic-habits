@@ -1,37 +1,5 @@
-const textElement = document.getElementById("text-container");
-const tooltip = document.getElementById("tooltip");
-const originalWordElement = document.getElementById("original-word");
-const translatedWordElement = document.getElementById("translated-word");
-
-// Detectar la palabra seleccionada al hacer clic
-textElement.addEventListener("mouseup", async (event) => {
-  const selection = window.getSelection();
-  const word = selection.toString().trim().toLowerCase();
-
-  if (word) {
-    // Obtener la posición del cursor
-    const rect = selection.getRangeAt(0).getBoundingClientRect();
-
-    // Traducción de la palabra (simulada aquí con un texto fijo)
-    const translation = await translateWord(word);
-
-    // Mostrar el cuadro emergente
-    originalWordElement.textContent = word;
-    translatedWordElement.textContent = translation;
-    tooltip.style.display = "block";
-    tooltip.style.top = `${window.scrollY + rect.top - tooltip.offsetHeight}px`;
-    tooltip.style.left = `${rect.left + rect.width / 2}px`;
-  } else {
-    tooltip.style.display = "none"; // Ocultar si no hay selección
-  }
-});
-
-// Función para traducir la palabra usando una API (simulada aquí)
-async function translateWord(word) {
-  // Aquí puedes integrar una API real como Google Translate o DeepL
-  // Simulación de traducción
-  const translations = {
-    "the": "el/la",
+const translation = {
+  "the": "el/la",
     "bat": "bate",
     "smashed": "golpeó",
     "into": "contra",
@@ -87,15 +55,51 @@ async function translateWord(word) {
     "took": "tomó",
     "full": "completo",
     "swing": "swing/golpe"
-};
-
-
-  return translations[word.toLowerCase()] || "Traducción no encontrada";
 }
 
-// Ocultar el cuadro emergente si se hace clic fuera del texto
-document.addEventListener("click", (event) => {
-  if (!textElement.contains(event.target)) {
-    tooltip.style.display = "none";
-  }
-});
+function prepareText() {
+  const container = document.getElementById("text-container");
+  const tooltip = document.getElementById("tooltip");
+  const translationSpan = document.getElementById("translation");
+
+  // Reemplazar el contenido de cada párrafo con palabras clicables
+  container.querySelectorAll("p").forEach(paragraph => {
+    const words = paragraph.textContent.split(/\s+/); // Divide las palabras
+    paragraph.innerHTML = ""; // Limpia el contenido original
+
+    words.forEach((word, index) => {
+      const cleanWord = word.replace(/[^\w\s]/g, "").toLowerCase(); // Eliminar signos de puntuación y convertir a minúsculas
+      const span = document.createElement("span");
+      span.textContent = word;
+      span.className = "word";
+
+      // Evento al hacer clic
+      span.addEventListener("click", (event) => {
+        const translationText = translation[cleanWord] || "Traducción no disponible"; // Usar 'translation' aquí
+        translationSpan.textContent = translationText;
+
+        // Posicionar el tooltip
+        tooltip.style.left = `${event.pageX}px`;
+        tooltip.style.top = `${event.pageY - 40}px`;
+        tooltip.style.display = "block";
+      });
+
+      paragraph.appendChild(span);
+
+      // Agregar espacio entre palabras (excepto la última)
+      if (index < words.length - 1) {
+        paragraph.appendChild(document.createTextNode(" "));
+      }
+    });
+  });
+
+  // Ocultar el tooltip si se hace clic fuera de una palabra
+  document.addEventListener("click", (event) => {
+    if (!event.target.classList.contains("word")) {
+      tooltip.style.display = "none";
+    }
+  });
+}
+
+// Inicializar el texto al cargar la página
+prepareText();
