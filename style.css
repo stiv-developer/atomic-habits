@@ -32,6 +32,10 @@ p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: none;
     z-index: 1000;
+    white-space: nowrap;
+    overflow: hidden;
+    word-wrap: break-word;
+    max-width: 200px;
 }
 
 .tooltip h3 {
@@ -46,23 +50,10 @@ p {
     color: #555;
 }
 
-/* #tooltip {
-    font-size: 14px;
-    z-index: 1000;
-}
-
-.tooltip {
-    display: none;
-    position: absolute;
-    top: -10px;
-    background: #333;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-} */
-
 .word {
     cursor: pointer;
+    /* border: 1px solid red;
+    padding: 3px; */
 }
 
 .word:hover {
