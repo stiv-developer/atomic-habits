@@ -22,12 +22,8 @@ p {
     padding: 10px;
 }
 
-/* span {
-    cursor: pointer;
-} */
-
 /* Estilo del cuadro emergente */
-/* .tooltip {
+.tooltip {
     position: absolute;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
@@ -48,9 +44,9 @@ p {
     margin: 5px 0 0;
     font-size: 14px;
     color: #555;
-} */
+}
 
-#tooltip {
+/* #tooltip {
     font-size: 14px;
     z-index: 1000;
 }
@@ -63,7 +59,7 @@ p {
     color: white;
     padding: 5px;
     border-radius: 5px;
-}
+} */
 
 .word {
     cursor: pointer;

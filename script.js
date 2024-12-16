@@ -60,7 +60,9 @@ const translation = {
 function prepareText() {
   const container = document.getElementById("text-container");
   const tooltip = document.getElementById("tooltip");
-  const translationSpan = document.getElementById("translation");
+  // const translationSpan = document.getElementById("translation");
+  const translationSpan = document.getElementById("translated-word");
+  const originalWord = document.getElementById("original-word");
 
   // Reemplazar el contenido de cada párrafo con palabras clicables
   container.querySelectorAll("p").forEach(paragraph => {
@@ -76,7 +78,9 @@ function prepareText() {
       // Evento al hacer clic
       span.addEventListener("click", (event) => {
         const translationText = translation[cleanWord] || "Traducción no disponible"; // Usar 'translation' aquí
+        console.log(cleanWord);
         translationSpan.textContent = translationText;
+        originalWord.textContent = cleanWord;
 
         // Posicionar el tooltip
         tooltip.style.left = `${event.pageX}px`;
@@ -92,6 +96,8 @@ function prepareText() {
       }
     });
   });
+
+
 
   // Ocultar el tooltip si se hace clic fuera de una palabra
   document.addEventListener("click", (event) => {
