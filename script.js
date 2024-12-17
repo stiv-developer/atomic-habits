@@ -128,3 +128,46 @@ function prepareText() {
 
 // Inicializar el texto al cargar la página
 prepareText();
+
+const audioIcon = document.querySelector(".bi-volume-up-fill");
+
+// Función para obtener las voces en inglés
+function getEnglishVoice() {
+    const voices = window.speechSynthesis.getVoices();
+    return voices.find(voice => voice.lang.startsWith("en-"));
+}
+
+audioIcon.addEventListener("click", () => {
+    const textToSpeak = document.getElementById("original-word").textContent;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+    // Asegurarse de que las voces se hayan cargado
+    const englishVoice = getEnglishVoice();
+    if (englishVoice) {
+        utterance.voice = englishVoice;
+        utterance.lang = "en-US";
+    } else {
+        console.warn("No se encontró una voz en inglés. Usando la voz predeterminada.");
+        utterance.lang = "en-US"; // Forzar el idioma
+    }
+
+    window.speechSynthesis.speak(utterance);
+});
+
+// Cargar voces cuando estén disponibles
+window.speechSynthesis.onvoiceschanged = () => {
+    console.log("Voces disponibles cargadas.");
+    getEnglishVoice();
+};
+
+function checkEnglishVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  const englishVoice = voices.find(voice => voice.lang.startsWith("en-"));
+
+  if (!englishVoice) {
+      alert("No se encontró una voz en inglés. Por favor, instale el idioma Inglés en su sistema para escuchar correctamente el audio.");
+  }
+}
+
+window.speechSynthesis.onvoiceschanged = checkEnglishVoice;
+
