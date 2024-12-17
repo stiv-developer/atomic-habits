@@ -4,14 +4,10 @@ body {
     line-height: 1.8;
 }
 
-
-h1 {
-    text-align: center;
-}
-
 h1,
-h3 {
+h3,h4 {
     color: #333;
+    text-align: center;
 }
 
 p {
@@ -47,6 +43,7 @@ p {
     display: flex;
     flex-direction: row;
     column-gap: 10px;
+    align-items: center;
 }
 
 .tooltip .group.first span{
@@ -57,6 +54,7 @@ p {
 
 .tooltip .group.first i{
     cursor: pointer;
+    font-size: 1.5rem;
 }
 
 .tooltip .group.second{

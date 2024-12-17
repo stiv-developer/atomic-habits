@@ -116,7 +116,10 @@ function prepareText() {
     });
   });
 
-
+  // Evita que el tooltip se cierre al hacer clic sobre él
+  tooltip.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 
   // Ocultar el tooltip si se hace clic fuera de una palabra
   document.addEventListener("click", (event) => {
@@ -129,35 +132,37 @@ function prepareText() {
 // Inicializar el texto al cargar la página
 prepareText();
 
+// REPRODUCIR VOZ EN INGLES==========
+
 const audioIcon = document.querySelector(".bi-volume-up-fill");
 
 // Función para obtener las voces en inglés
 function getEnglishVoice() {
-    const voices = window.speechSynthesis.getVoices();
-    return voices.find(voice => voice.lang.startsWith("en-"));
+  const voices = window.speechSynthesis.getVoices();
+  return voices.find(voice => voice.lang.startsWith("en-"));
 }
 
 audioIcon.addEventListener("click", () => {
-    const textToSpeak = document.getElementById("original-word").textContent;
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+  const textToSpeak = document.getElementById("original-word").textContent;
+  const utterance = new SpeechSynthesisUtterance(textToSpeak);
 
-    // Asegurarse de que las voces se hayan cargado
-    const englishVoice = getEnglishVoice();
-    if (englishVoice) {
-        utterance.voice = englishVoice;
-        utterance.lang = "en-US";
-    } else {
-        console.warn("No se encontró una voz en inglés. Usando la voz predeterminada.");
-        utterance.lang = "en-US"; // Forzar el idioma
-    }
+  // Asegurarse de que las voces se hayan cargado
+  const englishVoice = getEnglishVoice();
+  if (englishVoice) {
+    utterance.voice = englishVoice;
+    utterance.lang = "en-US";
+  } else {
+    console.warn("No se encontró una voz en inglés. Usando la voz predeterminada.");
+    utterance.lang = "en-US"; // Forzar el idioma
+  }
 
-    window.speechSynthesis.speak(utterance);
+  window.speechSynthesis.speak(utterance);
 });
 
 // Cargar voces cuando estén disponibles
 window.speechSynthesis.onvoiceschanged = () => {
-    console.log("Voces disponibles cargadas.");
-    getEnglishVoice();
+  console.log("Voces disponibles cargadas.");
+  getEnglishVoice();
 };
 
 function checkEnglishVoice() {
@@ -165,7 +170,7 @@ function checkEnglishVoice() {
   const englishVoice = voices.find(voice => voice.lang.startsWith("en-"));
 
   if (!englishVoice) {
-      alert("No se encontró una voz en inglés. Por favor, instale el idioma Inglés en su sistema para escuchar correctamente el audio.");
+    alert("No se encontró una voz en inglés. Por favor, instale el idioma Inglés en su sistema para escuchar correctamente el audio.");
   }
 }
 
